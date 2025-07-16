@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor Appointment</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Doctor Appointment Form</h2>
+    <form id="appointmentForm">
+      <label for="name">Patient Name:</label>
+      <input type="text" id="name" required>
+
+      <label for="doctor">Select Doctor:</label>
+      <select id="doctor" required>
+        <option value="">--Choose Doctor--</option>
+        <option value="Dr. Smith">Dr. Smith</option>
+        <option value="Dr. Jane">Dr. Jane</option>
+      </select>
+
+      <label for="date">Appointment Date:</label>
+      <input type="date" id="date" required>
+
+      <button type="submit">Book Appointment</button>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

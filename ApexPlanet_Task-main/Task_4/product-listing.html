@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Product Listing with Filter & Sort</title>
+<style>
+  body { font-family: Arial; max-width: 900px; margin: auto; padding: 20px; }
+  .filters { margin-bottom: 20px; }
+  .product-card { border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 6px; }
+</style>
+</head>
+<body>
+
+<h1>Products</h1>
+
+<div class="filters">
+  <label>
+    Category:
+    <select id="categoryFilter" onchange="applyFilters()">
+      <option value="all">All</option>
+      <option value="Clothing">Clothing</option>
+      <option value="Footwear">Footwear</option>
+    </select>
+  </label>
+
+  <label>
+    Sort by:
+    <select id="sortOptions" onchange="applyFilters()">
+      <option value="price-asc">Price ↑</option>
+      <option value="price-desc">Price ↓</option>
+      <option value="rating-desc">Rating ↓</option>
+      <option value="rating-asc">Rating ↑</option>
+    </select>
+  </label>
+</div>
+
+<div id="productList"></div>
+
+<script>
+  const products = [
+    { id: 1, name: "Running Shoes", category: "Footwear", price: 50, rating: 4.5 },
+    { id: 2, name: "T-Shirt", category: "Clothing", price: 20, rating: 4.0 },
+    { id: 3, name: "Jeans", category: "Clothing", price: 40, rating: 3.8 },
+    { id: 4, name: "Sneakers", category: "Footwear", price: 70, rating: 4.7 },
+  ];
+
+  function renderProducts(productsToRender) {
+    const container = document.getElementById('productList');
+    container.innerHTML = '';
+    productsToRender.forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'product-card';
+      div.innerHTML = `<h3>${p.name}</h3>
+                       <p>Category: ${p.category}</p>
+                       <p>Price: $${p.price}</p>
+                       <p>Rating: ${p.rating}</p>`;
+      container.appendChild(div);
+    });
+  }
+
+  function applyFilters() {
+    let filtered = [...products];
+    const category = document.getElementById('categoryFilter').value;
+    const sortOption = document.getElementById('sortOptions').value;
+
+    if (category !== 'all') {
+      filtered = filtered.filter(p => p.category === category);
+    }
+
+    switch(sortOption) {
+      case 'price-asc':
+        filtered.sort((a,b) => a.price - b.price);
+        break;
+      case 'price-desc':
+        filtered.sort((a,b) => b.price - a.price);
+        break;
+      case 'rating-asc':
+        filtered.sort((a,b) => a.rating - b.rating);
+        break;
+      case 'rating-desc':
+        filtered.sort((a,b) => b.rating - a.rating);
+        break;
+    }
+
+    renderProducts(filtered);
+  }
+
+  // Initial render
+  applyFilters();
+</script>
+
+</body>
+</html>

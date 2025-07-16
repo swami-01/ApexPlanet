@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>To-Do List with Local Storage</title>
+<style>
+  body { font-family: Arial; max-width: 500px; margin: auto; padding: 20px; }
+  input, button { padding: 10px; font-size: 16px; }
+  ul { list-style-type: none; padding: 0; }
+  li { background: #eee; margin: 8px 0; padding: 10px; display: flex; justify-content: space-between; }
+  button.delete { background: red; color: white; border: none; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<h1>To-Do List</h1>
+<input id="taskInput" type="text" placeholder="Add new task..." />
+<button onclick="addTask()">Add</button>
+<ul id="taskList"></ul>
+
+<script>
+  let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+  function renderTasks() {
+    const list = document.getElementById('taskList');
+    list.innerHTML = '';
+    tasks.forEach((task, index) => {
+      const li = document.createElement('li');
+      li.textContent = task;
+      const delBtn = document.createElement('button');
+      delBtn.textContent = 'Delete';
+      delBtn.className = 'delete';
+      delBtn.onclick = () => {
+        tasks.splice(index, 1);
+        updateLocalStorage();
+        renderTasks();
+      };
+      li.appendChild(delBtn);
+      list.appendChild(li);
+    });
+  }
+
+  function addTask() {
+    const input = document.getElementById('taskInput');
+    const task = input.value.trim();
+    if (task) {
+      tasks.push(task);
+      updateLocalStorage();
+      renderTasks();
+      input.value = '';
+    }
+  }
+
+  function updateLocalStorage() {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
+  // Initial render
+  renderTasks();
+</script>
+
+</body>
+</html>
